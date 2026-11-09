@@ -1,37 +1,45 @@
-# Tabel Hasil Pengujian dan Perbandingan Arsitektur
-**Studi Kasus:** Customer Management System  
-**Topik:** Analisis dan Implementasi Perbandingan Layered vs Non-Layered Web Application Architecture
+# Tabel Hasil Pengujian dan Perbandingan Akhir
+## Studi Kasus: Customer Management System (Non-Layered vs 3-Layer Web Application Architecture)
+
+Dokumen ini memuat **Satu Tabel Utama Hasil Pengujian & Perbandingan** sesuai arahan dosen pengampu, yang merangkum:
+1. **Unsur-unsur apa saja yang diuji coba** (struktur file/folder, kecepatan pembuatan awal, pengerjaan individu vs tim, kemudahan penelusuran kesalahan/bug, kecepatan respons UI, keamanan edit desain, kemudahan penambahan fitur, dan reusabilitas API).
+2. **Bagaimana hasilnya pada aplikasi Tanpa Layer (Non-Layered)** vs **Menggunakan 3-Layer**.
+3. **Siapa yang lebih unggul** pada masing-masing unsur pengujian.
+4. **Alasan mengapa** arsitektur tersebut lebih unggul.
 
 ---
 
-## 1. Tabel Hasil Pengujian Fungsional Kedua Aplikasi
+## 1. Tabel Hasil Pengujian & Perbandingan Arsitektur
 
-Pengujian dilakukan menggunakan skenario *Black-Box Testing* pada seluruh fitur wajib (Tambah, Tampil, Edit, Hapus, Pencarian, serta Validasi Kelengkapan dan Keunikan Email) baik pada **Aplikasi 1 (Non-Layered Architecture)** maupun **Aplikasi 2 (3-Layer Architecture)**.
-
-| Kode Uji | Fitur | Skenario Pengujian (Demo Web) | Bukti Screenshot Aplikasi 1 (Non-Layered) | Bukti Screenshot Aplikasi 2 (3-Layer REST API) | Status |
-| :--- | :--- | :--- | :--- | :--- | :---: |
-| **TC-01** | **Tampil Pelanggan** | Menampilkan seluruh data pelanggan saat halaman dibuka | Tabel HTML tampil langsung dari query `SELECT` ([`1_non_layered_dashboard_crud.png`](../screenshots/1_non_layered_dashboard_crud.png)) | Tabel tampil dari `GET /api/customers.php` HTTP `200` JSON ([`4_layered_dashboard_rest_api.png`](../screenshots/4_layered_dashboard_rest_api.png)) | **BERHASIL** |
-| **TC-02** | **Tambah Pelanggan** | Memasukkan data pelanggan baru dengan seluruh kolom terisi & email unik | Form dikirim via `POST index.php` dan data bertambah di tabel ([`1_non_layered_dashboard_crud.png`](../screenshots/1_non_layered_dashboard_crud.png)) | `fetch()` mengirim JSON via `POST` dan merespons HTTP `201` JSON ([`4_layered_dashboard_rest_api.png`](../screenshots/4_layered_dashboard_rest_api.png)) | **BERHASIL** |
-| **TC-03** | **Validasi Kelengkapan** | Mengirimkan form pelanggan dengan kolom alamat dikosongkan | Muncul kotak alert merah *"Alamat lengkap pelanggan wajib diisi"* ([`2_non_layered_validasi_error.png`](../screenshots/2_non_layered_validasi_error.png)) | `CustomerService` menolak dengan HTTP `422` JSON error ([`5_layered_validasi_422_json.png`](../screenshots/5_layered_validasi_422_json.png)) | **BERHASIL** |
-| **TC-04** | **Validasi Keunikan Email** | Mendaftarkan pelanggan menggunakan email yang sudah dipakai pelanggan lain | Muncul pesan error *"Email sudah terdaftar atas nama pelanggan Andi Pratama"* ([`2_non_layered_validasi_error.png`](../screenshots/2_non_layered_validasi_error.png)) | `CustomerRepository::findByEmail()` mendeteksi duplikat & menolak HTTP `422` JSON ([`5_layered_validasi_422_json.png`](../screenshots/5_layered_validasi_422_json.png)) | **BERHASIL** |
-| **TC-05** | **Edit Pelanggan** | Mengubah informasi pelanggan yang sudah terdaftar | Klik Edit mengisi form, simpan menjalankan query `UPDATE` ([`3_non_layered_edit_pencarian.png`](../screenshots/3_non_layered_edit_pencarian.png)) | Klik Edit memanggil `GET ?id=1`, simpan memanggil `PUT ?id=1` JSON ([`6_layered_edit_pencarian_json.png`](../screenshots/6_layered_edit_pencarian_json.png)) | **BERHASIL** |
-| **TC-06** | **Pencarian Pelanggan** | Mencari pelanggan berdasarkan kata kunci Nama atau Email | `GET index.php?cari=...` memfilter tabel dengan reload halaman ([`3_non_layered_edit_pencarian.png`](../screenshots/3_non_layered_edit_pencarian.png)) | `GET /api/customers.php?q=...` memfilter tabel via JSON tanpa reload ([`6_layered_edit_pencarian_json.png`](../screenshots/6_layered_edit_pencarian_json.png)) | **BERHASIL** |
-| **TC-07** | **Hapus Pelanggan** | Menghapus satu data pelanggan dari daftar | Klik Hapus menjalankan `DELETE FROM pelanggan WHERE id = ?` ([`1_non_layered_dashboard_crud.png`](../screenshots/1_non_layered_dashboard_crud.png)) | Klik Hapus memanggil `DELETE /api/customers.php?id=...` HTTP `200` ([`4_layered_dashboard_rest_api.png`](../screenshots/4_layered_dashboard_rest_api.png)) | **BERHASIL** |
+| No | Unsur yang Diuji Coba | Tanpa Layer (Non-Layered) | Menggunakan 3-Layer | Siapa yang Lebih Unggul? | Alasannya Kenapa? |
+| :-: | :--- | :--- | :--- | :---: | :--- |
+| **1** | **Struktur Pemisahan File & Folder** | Seluruh kode (HTML, CSS, validasi PHP, koneksi PDO, & query SQL) menyatu di dalam **1 file** (`1-non-layered-app/index.php`). | Terpisah tegas ke dalam **3 folder**: `presentation/` (UI), `business-logic/` (Service & API), dan `data-access/` (SQL). | **3-Layer Architecture** | Struktur kode sangat rapi dan setiap file/folder memiliki tanggung jawab yang jelas (*Separation of Concerns*). |
+| **2** | **Kecepatan Pembuatan Awal (Aplikasi Kecil)** | **Sangat cepat** dibuat karena programmer cukup menulis satu file `index.php` tanpa perlu membuat endpoint API JSON. | Membutuhkan waktu awal lebih lama karena harus menyiapkan 3 folder, REST API (`customers.php`), dan `fetch()` JS. | **Non-Layered Architecture** | Untuk program kecil atau tugas sederhana, membuat 1 file langsung jalan tanpa perlu konfigurasi antar-layer. |
+| **3** | **Pengerjaan Individu vs Kerja Tim** | Hanya cocok dikerjakan **1 orang (individu)**. Jika dikerjakan tim secara bersamaan pada 1 file `index.php`, kode akan saling bentrok (*conflict*). | Sangat cocok untuk **kerja tim**. Anggota 1 mengerjakan folder `presentation/`, Anggota 2 di `business-logic/`, Anggota 3 di `data-access/`. | **3-Layer Architecture** | Setiap anggota tim bekerja di folder/file yang berbeda sehingga tidak saling mengganggu pekerjaan anggota lain. |
+| **4** | **Kemudahan Penelusuran Kesalahan (Debugging)** | **Sulit ditelusuri** karena ketika muncul error, kita harus mencari di antara ratusan baris HTML, PHP, dan SQL yang bercampur di 1 file. | **Sangat mudah dilacak** karena lokasi error langsung terisolasi sesuai foldernya (apakah di tampilan JS, validasi Service, atau query SQL). | **3-Layer Architecture** | Jika salah tampilan cek `presentation/`, jika salah aturan validasi cek `CustomerService.php`, jika salah query cek `CustomerRepository.php`. |
+| **5** | **Kecepatan Respons Antarmuka (UI)** | Lebih lambat karena setiap tambah/edit/hapus/cari pelanggan harus **memuat ulang seluruh halaman** (*Full Page Reload*). | **Lebih cepat dan mulus** karena browser hanya mengirim & menerima data teks ringan berformat **JSON** via `fetch()` tanpa *reload* halaman. | **3-Layer Architecture** | Pertukaran data menggunakan REST API & JSON hanya memperbarui isi tabel HTML secara dinamis tanpa me-refresh seluruh halaman. |
+| **6** | **Keamanan Saat Mengubah Desain Tampilan (HTML/CSS)** | **Rawan merusak program**, karena saat mengedit tag HTML/CSS di `index.php`, kita bisa tidak sengaja menghapus variabel PHP atau query SQL di atasnya. | **Sangat aman**, karena desainer web cukup mengedit `index.html` dan `style.css` yang murni berisi kode tampilan (0% kode PHP/SQL). | **3-Layer Architecture** | Kode tampilan di folder `presentation/` terpisah 100% dari logika bisnis PHP maupun query database MySQL. |
+| **7** | **Kemudahan Penambahan Fitur Baru (Skalabilitas)** | Semakin banyak fitur baru ditambahkan, file `index.php` menjadi semakin panjang, rumit, dan sulit dipelihara (*spaghetti code*). | Mudah dikembangkan cukup dengan menambah fungsi baru di `CustomerRepository.php` dan `CustomerService.php` tanpa merusak kode lama. | **3-Layer Architecture** | Penambahan fitur baru terorganisir per layer sehingga aplikasi mudah dikembangkan untuk jangka panjang. |
+| **8** | **Kemampuan Dipakai Ulang oleh Aplikasi Lain (Reusabilitas)** | **Tidak bisa** dipakai oleh aplikasi Mobile (Android/iOS) karena output dari `index.php` berupa halaman HTML utuh, bukan data JSON. | **Bisa langsung dipakai ulang** oleh aplikasi Android, iOS, atau sistem lain karena `api/customers.php` menghasilkan **JSON standar**. | **3-Layer Architecture** | Business Logic Layer menyediakan REST API berformat JSON yang dapat diakses lintas platform (Web & Mobile). |
 
 ---
 
-## 2. Tabel Perbandingan Teknis: Non-Layered vs 3-Layer Architecture
+## 2. Bukti Visual Konsep Kode & Tampilan Web
 
-| Aspek Perbandingan | Aplikasi 1: Non-Layered Architecture | Aplikasi 2: 3-Layer Architecture | Analisis Keunggulan |
-| :--- | :--- | :--- | :--- |
-| **Struktur Kode & Direktori** | **Monolitik Sederhana (1 File)**: Seluruh kode berada di `1-non-layered-app/index.php`. | **Terpisah Tegas (3 Direktori Layer)**: `presentation/`, `business-logic/`, dan `data-access/`. | **3-Layer** memberikan organisasi kode yang jauh lebih rapi dan terstruktur (*Separation of Concerns*). |
-| **Presentation Layer (Frontend)** | Kode HTML dan CSS bercampur langsung dengan tag `<?php ... ?>` di dalam `index.php`. | Murni HTML5 (`index.html`), CSS3 (`style.css`), dan JavaScript (`app.js`) tanpa kode PHP sedikit pun. | **3-Layer** memungkinkan desainer UI/Frontend bekerja independen tanpa risiko merusak logika PHP/SQL. |
-| **Business Logic Layer (Proses Bisnis)** | Aturan validasi ditulis menyatu di blok `if ($_SERVER['REQUEST_METHOD'] === 'POST')` pada file tampilan. | Dienkapsulasi di dalam class `CustomerService.php` dan diekspos melalui REST API Controller (`api/customers.php`). | **3-Layer** memusatkan aturan bisnis di satu tempat sehingga konsisten dan mudah diaudit. |
-| **Data Layer (Database Access)** | Koneksi PDO dan query SQL (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) ditulis langsung di sela-sela logika form. | Dienkapsulasi sepenuhnya di dalam `Database.php` dan `CustomerRepository.php`. | **3-Layer** mengisolasi query SQL; perubahan skema tabel cukup diperbaiki di `CustomerRepository.php`. |
-| **Mekanisme Komunikasi** | *Server-Side Page Reload* melalui pengiriman form standar (`HTTP GET` & `HTTP POST` form-urlencoded). | **REST API (`GET`, `POST`, `PUT`, `DELETE`)** dengan pertukaran data berformat **JSON** secara asinkron (`fetch`). | **3-Layer** memberikan pengalaman pengguna yang lebih responsif tanpa *full-page reload* dan menampilkan log JSON secara transparan. |
-| **Kecepatan Pembuatan Awal (*Initial Development*)** | **Sangat Cepat** untuk aplikasi skala kecil karena tidak memerlukan pembuatan kontrak API dan pemisahan class. | Membutuhkan waktu inisialisasi lebih banyak untuk merancang kontrak JSON, Service, dan Repository. | **Non-Layered** unggul untuk prototipe sangat kecil atau skrip tunggal sederhana. |
-| **Kemudahan Debugging & Perbaikan Bug** | Lebih sulit ketika baris kode membesar karena bug bisa berasal dari HTML, validasi PHP, atau query SQL di file yang sama. | **Sangat Mudah**: Bug tampilan dilacak di `presentation/`, bug aturan validasi di `CustomerService.php`, dan bug query di `CustomerRepository.php`. | **3-Layer** mempercepat isolasi dan perbaikan kesalahan (*fault isolation*). |
-| **Kemudahan Pengembangan Fitur Baru (*Scalability*)** | Sulit dikembangkan; penambahan fitur baru membuat satu file `index.php` semakin panjang (*spaghetti code*). | **Sangat Mudah**: Penambahan fitur baru cukup menambah method pada Repository, Service, dan endpoint API secara modular. | **3-Layer** sangat ideal untuk aplikasi yang terus tumbuh dan dikerjakan secara tim. |
-| **Reusabilitas (*Reusability*)** | **Rendah**: Logika bisnis tidak dapat digunakan oleh aplikasi Mobile (Android/iOS) karena mengembalikan HTML utuh. | **Tinggi**: Endpoint REST API (`api/customers.php`) yang mengembalikan JSON dapat langsung digunakan oleh Web, Mobile App, maupun sistem pihak ketiga. | **3-Layer** unggul mutlak dalam mendukung ekosistem multi-platform. |
-| **Kemudahan Pengujian (*Testability*)** | Sulit diuji secara otomatis (*Unit Testing*) karena logika bisnis terikat erat dengan `$_POST`, `header()`, dan output HTML. | **Sangat Mudah**: Class `CustomerService` dan `CustomerRepository` dapat diuji langsung menggunakan skrip otomatis (`run_tests.php`). | **3-Layer** mendukung *automated unit & integration testing* secara bersih. |
+### A. Screenshot Code (Mewakili Konsep Non-Layered vs 3-Layer)
+1. **Screenshot Code Non-Layered (`1-non-layered-app/index.php`):** [`screenshots/0_screenshot_code_non_layered.png`](../screenshots/0_screenshot_code_non_layered.png)
+   - Menunjukkan koneksi PDO MySQL, validasi PHP, query SQL (`SELECT`, `INSERT`, `UPDATE`, `DELETE`), CSS, dan HTML yang menyatu di dalam **1 file**.
+2. **Screenshot Code 3-Layer (`presentation/`, `business-logic/`, `data-access/`):** [`screenshots/0_screenshot_code_3_layer.png`](../screenshots/0_screenshot_code_3_layer.png)
+   - Menunjukkan pemisahan kode ke dalam 3 folder berbeda: `app.js` (Presentation Layer), `CustomerService.php` (Business Logic Layer), dan `CustomerRepository.php` (Data Layer).
 
+### B. Diagram Arsitektur (Pemisahan File/Folder & Hubungan HTML, CSS, JS, PHP, SQL)
+1. **Diagram Arsitektur Non-Layered:** [`diagrams/1_diagram_arsitektur_non_layered.png`](../diagrams/1_diagram_arsitektur_non_layered.png)
+2. **Diagram Arsitektur 3-Layer:** [`diagrams/2_diagram_arsitektur_3_layer.png`](../diagrams/2_diagram_arsitektur_3_layer.png)
+3. **Diagram Perbandingan Alur Request & Response:** [`diagrams/3_diagram_perbandingan_alur_request.png`](../diagrams/3_diagram_perbandingan_alur_request.png)
+
+---
+
+## 3. Kesimpulan Akhir Perbandingan
+
+- **Non-Layered Architecture Lebih Unggul dalam hal:** **Kecepatan pembuatan awal** untuk aplikasi yang sangat kecil, sederhana, dan dikerjakan oleh **1 orang (individu)**.
+- **3-Layer Architecture Lebih Unggul dalam hal:** **Struktur pemisahan file/folder**, **kerja tim paralel**, **kemudahan penelusuran kesalahan (debugging)**, **kecepatan respons UI (JSON tanpa reload)**, **keamanan saat mengubah desain HTML/CSS**, **kemudahan penambahan fitur baru**, serta **reusabilitas REST API** untuk platform lain.

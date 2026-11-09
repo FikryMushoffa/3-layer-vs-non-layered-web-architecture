@@ -6,88 +6,90 @@
 
 ---
 
-## 1. Peta Seluruh Luaran Wajib (Sesuai Halaman 22 PDF)
+## 1. Peta Seluruh Luaran Wajib (Sesuai Halaman 22 PDF & Arahan Dosen)
 
-Seluruh **8 luaran wajib** yang diminta pada slide halaman 22 telah selesai dibuat secara lengkap:
+Seluruh **8 luaran wajib** telah selesai dibuat dan disesuaikan dengan arahan dosen:
 
 | No. | Luaran yang Harus Dikumpulkan & Dipresentasikan | Lokasi File / Folder |
 | :-: | :--- | :--- |
-| **1** | **Source Code Aplikasi Non-Layered** | [`1-non-layered-app/index.php`](./1-non-layered-app/index.php) |
-| **2** | **Source Code Aplikasi 3-Layer Architecture** | [`2-layered-app/`](./2-layered-app/) (`presentation/`, `business-logic/`, `data-access/`) |
-| **3** | **File Database SQL** | [`database/customer_management.sql`](./database/customer_management.sql) |
-| **4** | **Diagram Arsitektur Kedua Aplikasi** | [`diagrams/`](./diagrams/) (3 file diagram PNG resolusi tinggi) |
-| **5** | **Screenshot Tampilan Kedua Aplikasi** | [`screenshots/`](./screenshots/) (6 screenshot fitur CRUD, Cari, & Validasi) |
-| **6** | **Tabel Hasil Pengujian & Perbandingan** | [`pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md`](./pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md) |
+| **1** | **Source Code Aplikasi Non-Layered (1 File Monolitik)** | [`1-non-layered-app/index.php`](./1-non-layered-app/index.php) |
+| **2** | **Source Code Aplikasi 3-Layer Architecture (3 Folder)** | [`2-layered-app/`](./2-layered-app/) (`presentation/`, `business-logic/`, `data-access/`) |
+| **3** | **File Database SQL (MySQL + 5 Data Awal)** | [`database/customer_management.sql`](./database/customer_management.sql) |
+| **4** | **Diagram Arsitektur (Pemisahan File/Folder & Hubungan HTML/CSS/PHP/SQL)** | [`diagrams/`](./diagrams/) (Diagram Non-Layered, 3-Layer, & Alur Request) |
+| **5** | **Screenshot Code & Screenshot Tampilan Web Kedua Aplikasi** | [`screenshots/`](./screenshots/) (2 Screenshot Code + 6 Screenshot Tampilan Web) |
+| **6** | **Satu Tabel Utama Hasil Pengujian & Perbandingan Akhir** | [`pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md`](./pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md) |
 | **7** | **Laporan Analisis (PDF)** | [`laporan/Laporan_Analisis_Layered_vs_Non_Layered_Architecture.pdf`](./laporan/Laporan_Analisis_Layered_vs_Non_Layered_Architecture.pdf) |
 | **8** | **Slide Presentasi Kelompok (PPTX & PDF)** | [`presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pptx`](./presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pptx) & [`.pdf`](./presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pdf) |
 
 ---
 
-## 2. Ringkasan Konsep yang Mudah Dipahami (Untuk Bahan Presentasi)
+## 2. Diagram Arsitektur (Pemisahan File/Folder & Hubungan Komponen)
 
-### A. Apa Bedanya Non-Layered vs 3-Layer Architecture?
-Bayangkan kita membuat aplikasi **Customer Management System** yang memiliki **6 fitur wajib** (Halaman 19 PDF):
-1. **Tambah pelanggan** (memasukkan nama, email, telepon, alamat)
-2. **Tampil pelanggan** (menampilkan seluruh daftar pelanggan)
-3. **Edit pelanggan** (mengubah data pelanggan)
-4. **Hapus pelanggan** (menghapus data pelanggan)
-5. **Pencarian** (mencari pelanggan berdasarkan **nama** atau **email**)
-6. **Validasi** (memeriksa **kelengkapan seluruh kolom** dan **keunikan email** agar tidak ada 2 pelanggan dengan email yang sama)
+### A. Diagram Arsitektur 1: Non-Layered Architecture (Menyatu dalam 1 File `index.php`)
+![Diagram Non-Layered](./diagrams/1_diagram_arsitektur_non_layered.png)
 
-Kedua aplikasi memiliki tampilan dan fitur yang **sama persis**, tetapi cara menyusun kodenya berbeda:
+### B. Diagram Arsitektur 2: 3-Layer Architecture (Terpisah Tegas ke 3 Folder)
+![Diagram 3-Layer](./diagrams/2_diagram_arsitektur_3_layer.png)
 
-#### 1) Aplikasi Pertama: Non-Layered Architecture ([`1-non-layered-app/index.php`](./1-non-layered-app/index.php))
-- **Konsep (Halaman 14–15 & 20 PDF):** Disebut juga arsitektur **monolitik satu file**.
-- **Cara Kerja:** Seluruh kode ditempatkan di dalam **1 file PHP saja (`index.php`)**:
-  - **Bagian 1 (Baris atas):** Koneksi langsung ke database MySQL (`new PDO(...)`).
-  - **Bagian 2 (Baris tengah):** Proses bisnis (cek apakah input kosong, cek apakah email sudah dipakai) sekaligus langsung menjalankan query SQL (`INSERT`, `UPDATE`, `DELETE`, `SELECT`).
-  - **Bagian 3 (Baris bawah):** Kode tampilan HTML dan CSS untuk menampilkan form dan tabel pelanggan.
-- **Komunikasi:** Tidak memakai REST API. Setiap tombol Simpan/Cari/Hapus diklik, browser me-*reload* ulang seluruh halaman `index.php`.
-
-#### 2) Aplikasi Kedua: 3-Layer Architecture ([`2-layered-app/`](./2-layered-app/))
-- **Konsep (Halaman 2–13 & 21 PDF):** Membagi aplikasi menjadi **3 lapisan (layer)** dengan tugas dan tanggung jawab yang terpisah tegas, serta berkomunikasi menggunakan **REST API dan JSON**:
-  1. **Layer 1 — Presentation Layer (Frontend):**
-     - Lokasi: [`2-layered-app/presentation/index.html`](./2-layered-app/presentation/index.html), [`style.css`](./2-layered-app/presentation/assets/css/style.css), dan [`app.js`](./2-layered-app/presentation/assets/js/app.js).
-     - Tugas: Hanya mengurus tampilan yang dilihat pengguna. Tidak ada kode PHP dan tidak ada query SQL sama sekali. Mengirim dan mengambil data ke Backend menggunakan `fetch()` berformat **JSON**.
-  2. **Layer 2 — Business Logic Layer (Backend & REST API):**
-     - Lokasi: [`CustomerService.php`](./2-layered-app/business-logic/CustomerService.php) dan [`api/customers.php`](./2-layered-app/business-logic/api/customers.php).
-     - Tugas: Menerima permintaan JSON dari Frontend (`GET`, `POST`, `PUT`, `DELETE`), memeriksa aturan bisnis (apakah semua kolom sudah diisi? apakah format email benar? apakah email sudah dipakai pelanggan lain?), lalu mengembalikan hasil dalam bentuk **JSON**.
-  3. **Layer 3 — Data Layer (Database Access):**
-     - Lokasi: [`Database.php`](./2-layered-app/data-access/Database.php) dan [`CustomerRepository.php`](./2-layered-app/data-access/CustomerRepository.php).
-     - Tugas: Satu-satunya bagian yang berhubungan dengan database MySQL. Berisi fungsi-fungsi query SQL (`findAll`, `search`, `findById`, `findByEmail`, `create`, `update`, `delete`).
+### C. Diagram Perbandingan Alur Proses Request & Response
+![Diagram Alur Proses](./diagrams/3_diagram_perbandingan_alur_request.png)
 
 ---
 
-## 3. Jawaban 5 Pertanyaan Diskusi (Halaman 17 PDF)
+## 3. Screenshot Code (Mewakili Konsep Non-Layered vs 3-Layer)
 
-Berikut jawaban lengkap dan mudah dipahami untuk menjawab pertanyaan dosen saat presentasi:
+### A. Screenshot Code Non-Layered (`1-non-layered-app/index.php`)
+Seluruh koneksi database PDO, proses bisnis validasi, query SQL, CSS, dan HTML bercampur di dalam **1 file**:
+![Screenshot Code Non-Layered](./screenshots/0_screenshot_code_non_layered.png)
+
+### B. Screenshot Code 3-Layer (`presentation/`, `business-logic/`, `data-access/`)
+Kode dipisahkan secara tegas sesuai tanggung jawab masing-masing folder layer dan berkomunikasi via **REST API & JSON**:
+![Screenshot Code 3-Layer](./screenshots/0_screenshot_code_3_layer.png)
+
+---
+
+## 4. Tabel Hasil Pengujian & Perbandingan Akhir
+
+Berikut adalah **Satu Tabel Utama Hasil Pengujian & Perbandingan** yang merangkum unsur-unsur yang diuji coba, perbandingan antara Tanpa Layer vs 3-Layer, siapa yang lebih unggul, beserta alasannya:
+
+| No | Unsur yang Diuji Coba | Tanpa Layer (Non-Layered) | Menggunakan 3-Layer | Siapa yang Lebih Unggul? | Alasannya Kenapa? |
+| :-: | :--- | :--- | :--- | :---: | :--- |
+| **1** | **Struktur Pemisahan File & Folder** | Seluruh kode (HTML, CSS, validasi PHP, koneksi PDO, & query SQL) menyatu di dalam **1 file** (`1-non-layered-app/index.php`). | Terpisah tegas ke dalam **3 folder**: `presentation/` (UI), `business-logic/` (Service & API), dan `data-access/` (SQL). | **3-Layer Architecture** | Struktur kode sangat rapi dan setiap file/folder memiliki tanggung jawab yang jelas (*Separation of Concerns*). |
+| **2** | **Kecepatan Pembuatan Awal (Aplikasi Kecil)** | **Sangat cepat** dibuat karena programmer cukup menulis satu file `index.php` tanpa perlu membuat endpoint API JSON. | Membutuhkan waktu awal lebih lama karena harus menyiapkan 3 folder, REST API (`customers.php`), dan `fetch()` JS. | **Non-Layered Architecture** | Untuk program kecil atau tugas sederhana, membuat 1 file langsung jalan tanpa perlu konfigurasi antar-layer. |
+| **3** | **Pengerjaan Individu vs Kerja Tim** | Hanya cocok dikerjakan **1 orang (individu)**. Jika dikerjakan tim secara bersamaan pada 1 file `index.php`, kode akan saling bentrok (*conflict*). | Sangat cocok untuk **kerja tim**. Anggota 1 mengerjakan folder `presentation/`, Anggota 2 di `business-logic/`, Anggota 3 di `data-access/`. | **3-Layer Architecture** | Setiap anggota tim bekerja di folder/file yang berbeda sehingga tidak saling mengganggu pekerjaan anggota lain. |
+| **4** | **Kemudahan Penelusuran Kesalahan (Debugging)** | **Sulit ditelusuri** karena ketika muncul error, kita harus mencari di antara ratusan baris HTML, PHP, dan SQL yang bercampur di 1 file. | **Sangat mudah dilacak** karena lokasi error langsung terisolasi sesuai foldernya (apakah di tampilan JS, validasi Service, atau query SQL). | **3-Layer Architecture** | Jika salah tampilan cek `presentation/`, jika salah aturan validasi cek `CustomerService.php`, jika salah query cek `CustomerRepository.php`. |
+| **5** | **Kecepatan Respons Antarmuka (UI)** | Lebih lambat karena setiap tambah/edit/hapus/cari pelanggan harus **memuat ulang seluruh halaman** (*Full Page Reload*). | **Lebih cepat dan mulus** karena browser hanya mengirim & menerima data teks ringan berformat **JSON** via `fetch()` tanpa *reload* halaman. | **3-Layer Architecture** | Pertukaran data menggunakan REST API & JSON hanya memperbarui isi tabel HTML secara dinamis tanpa me-refresh seluruh halaman. |
+| **6** | **Keamanan Saat Mengubah Desain Tampilan (HTML/CSS)** | **Rawan merusak program**, karena saat mengedit tag HTML/CSS di `index.php`, kita bisa tidak sengaja menghapus variabel PHP atau query SQL di atasnya. | **Sangat aman**, karena desainer web cukup mengedit `index.html` dan `style.css` yang murni berisi kode tampilan (0% kode PHP/SQL). | **3-Layer Architecture** | Kode tampilan di folder `presentation/` terpisah 100% dari logika bisnis PHP maupun query database MySQL. |
+| **7** | **Kemudahan Penambahan Fitur Baru (Skalabilitas)** | Semakin banyak fitur baru ditambahkan, file `index.php` menjadi semakin panjang, rumit, dan sulit dipelihara (*spaghetti code*). | Mudah dikembangkan cukup dengan menambah fungsi baru di `CustomerRepository.php` dan `CustomerService.php` tanpa merusak kode lama. | **3-Layer Architecture** | Penambahan fitur baru terorganisir per layer sehingga aplikasi mudah dikembangkan untuk jangka panjang. |
+| **8** | **Kemampuan Dipakai Ulang oleh Aplikasi Lain (Reusabilitas)** | **Tidak bisa** dipakai oleh aplikasi Mobile (Android/iOS) karena output dari `index.php` berupa halaman HTML utuh, bukan data JSON. | **Bisa langsung dipakai ulang** oleh aplikasi Android, iOS, atau sistem lain karena `api/customers.php` menghasilkan **JSON standar**. | **3-Layer Architecture** | Business Logic Layer menyediakan REST API berformat JSON yang dapat diakses lintas platform (Web & Mobile). |
+
+---
+
+## 5. Jawaban 5 Pertanyaan Diskusi (Halaman 17 PDF)
 
 1. **Mana yang lebih mudah dibuat?**
-   - **Aplikasi Non-Layered lebih mudah dan cepat dibuat di awal** untuk aplikasi kecil, karena kita cukup menulis koneksi database, validasi, query SQL, dan tampilan HTML di dalam satu file `index.php` tanpa perlu membuat REST API atau membagi banyak file.
+   - **Aplikasi Non-Layered lebih mudah dan cepat dibuat di awal** untuk aplikasi kecil/individu, karena seluruh koneksi database, validasi, query SQL, dan tampilan HTML cukup ditulis di dalam satu file `index.php`.
 2. **Mana yang lebih mudah diperbaiki ketika terjadi kesalahan (bug)?**
-   - **Aplikasi 3-Layer jauh lebih mudah diperbaiki.** Karena tugas tiap layer sudah dipisah:
+   - **Aplikasi 3-Layer jauh lebih mudah diperbaiki.** Karena tugas tiap layer sudah dipisah sesuai foldernya:
      - Kalau tampilan tombol/tabel berantakan $\rightarrow$ cukup periksa folder `presentation/`.
-     - Kalau aturan validasi email salah $\rightarrow$ cukup periksa `CustomerService.php` di `business-logic/`.
-     - Kalau query SQL salah $\rightarrow$ cukup periksa `CustomerRepository.php` di `data-access/`.
+     - Kalau aturan validasi email salah $\rightarrow$ cukup periksa `CustomerService.php` di folder `business-logic/`.
+     - Kalau query SQL salah $\rightarrow$ cukup periksa `CustomerRepository.php` di folder `data-access/`.
 3. **Mana yang lebih mudah dikembangkan ketika fitur bertambah?**
-   - **Aplikasi 3-Layer jauh lebih mudah dikembangkan.** Ketika fitur bertambah (misalnya ingin membuat aplikasi Android/iOS atau menambah fitur baru), kita cukup memakai ulang endpoint REST API JSON (`api/customers.php`) tanpa perlu membongkar kode yang sudah ada.
+   - **Aplikasi 3-Layer jauh lebih mudah dikembangkan.** Ketika fitur bertambah atau dikerjakan oleh tim, tiap layer dapat dikembangkan tanpa merusak bagian lain dan endpoint REST API JSON (`api/customers.php`) bisa dipakai ulang oleh aplikasi Mobile.
 4. **Apa risiko jika seluruh kode ditempatkan dalam satu file?**
-   - Kode menjadi sangat panjang dan bercampur aduk (*spaghetti code*).
-   - Mengubah desain HTML berisiko tidak sengaja menghapus/merusak kode validasi PHP atau query SQL.
-   - Sulit dikerjakan bersama-sama dalam satu tim (rawan *conflict* saat *merge* kode).
-   - Tidak bisa langsung dipakai oleh aplikasi Mobile karena outputnya berupa HTML, bukan JSON.
+   - Kode menjadi panjang dan tercampur aduk (*spaghetti code*), mengubah desain HTML/CSS berisiko merusak query SQL, rawan bentrok saat dikerjakan oleh tim, dan sulit melacak letak bug.
 5. **Apakah aplikasi tanpa 3-layer selalu lebih buruk?**
-   - **Tidak selalu.** Untuk aplikasi yang sangat kecil, skrip sederhana satu halaman, atau prototipe cepat (*MVP*), pendekatan Non-Layered justru praktis dan tidak berbelit-belit. Namun, untuk aplikasi perusahaan yang terus berkembang dan dikelola jangka panjang, **3-Layer Architecture jauh lebih baik**.
+   - **Tidak selalu.** Untuk tugas individu, prototipe cepat, atau aplikasi sangat kecil, Non-Layered lebih praktis dan cepat selesai. Namun untuk aplikasi bisnis yang dikerjakan tim dan terus berkembang, **3-Layer Architecture mutlak lebih unggul**.
 
 ---
 
-## 4. Cara Menjalankan Kedua Aplikasi
+## 6. Cara Menjalankan Kedua Aplikasi
 
 1. **Nyalakan Apache & MySQL** di XAMPP atau Laragon.
 2. **Import Database SQL** ke MySQL / phpMyAdmin:
    - Buka `http://localhost/phpmyadmin`
    - Klik menu **Import** $\rightarrow$ pilih file [`database/customer_management.sql`](./database/customer_management.sql) $\rightarrow$ klik **Import / Go**.
-   - *(Atau lewat terminal MySQL: `mysql -u root < database/customer_management.sql`)*.
+   - *(Catatan: Kedua aplikasi juga sudah dilengkapi fitur **Auto-Create Database** sehingga jika database `customer_management` belum dibuat, aplikasi akan mengimpornya secara otomatis saat halaman dibuka).*
 3. **Jalankan Aplikasi:**
    - Jika memakai folder `htdocs` XAMPP / `www` Laragon, langsung buka dari browser.
    - Atau jalankan langsung dari folder ini dengan perintah:
