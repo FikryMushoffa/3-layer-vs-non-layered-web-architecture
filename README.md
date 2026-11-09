@@ -12,8 +12,8 @@ Seluruh **8 luaran wajib** telah selesai dibuat dan disesuaikan dengan arahan do
 
 | No. | Luaran yang Harus Dikumpulkan & Dipresentasikan | Lokasi File / Folder |
 | :-: | :--- | :--- |
-| **1** | **Source Code Aplikasi Non-Layered (Tanpa Pemisahan Layer Tegas)** | [`1-non-layered-app/index.php`](./1-non-layered-app/index.php) *(diimplementasikan dalam 1 file)* |
-| **2** | **Source Code Aplikasi 3-Layer Architecture (3 Folder Layer)** | [`2-layered-app/`](./2-layered-app/) (`presentation/`, `business-logic/`, `data-access/`) |
+| **1** | **Source Code Aplikasi Non-Layered (Tanpa Pemisahan Layer Tegas)** | [`non-layered-app/index.php`](./non-layered-app/index.php) *(diimplementasikan dalam 1 file)* |
+| **2** | **Source Code Aplikasi 3-Layer Architecture (3 Folder Layer)** | [`3-layered-app/`](./3-layered-app/) (`presentation/`, `business-logic/`, `data-access/`) |
 | **3** | **File Database SQL (MySQL + 5 Data Awal)** | [`database/customer_management.sql`](./database/customer_management.sql) |
 | **4** | **Diagram Arsitektur (Pemisahan File/Folder & Hubungan HTML/CSS/PHP/SQL)** | [`diagrams/`](./diagrams/) (Diagram Non-Layered, 3-Layer, & Alur Request) |
 | **5** | **Screenshot Code & Screenshot Tampilan Web Kedua Aplikasi** | [`screenshots/`](./screenshots/) (2 Screenshot Code + 6 Screenshot Tampilan Web) |
@@ -38,7 +38,7 @@ Seluruh **8 luaran wajib** telah selesai dibuat dan disesuaikan dengan arahan do
 
 ## 3. Screenshot Code (Mewakili Konsep Non-Layered vs 3-Layer)
 
-### A. Screenshot Code Non-Layered (`1-non-layered-app/index.php`)
+### A. Screenshot Code Non-Layered (`non-layered-app/index.php`)
 Secara konsep (Halaman 16 & 18 PDF), **Non-Layered Architecture** adalah aplikasi yang dikembangkan tanpa pemisahan layer secara tegas, di mana tampilan, proses bisnis, dan akses database **dapat berada dalam satu file atau beberapa file yang belum memiliki pemisahan tanggung jawab yang jelas**. Pada studi kasus ini (sesuai Halaman 14 & 20 PDF), seluruh kode ditempatkan di dalam **1 file (`index.php`)**:
 ![Screenshot Code Non-Layered](./screenshots/0_screenshot_code_non_layered.png)
 
@@ -54,7 +54,7 @@ Berikut adalah **Satu Tabel Utama Hasil Pengujian & Perbandingan** yang merangku
 
 | No | Unsur yang Diuji Coba | Tanpa Layer (Non-Layered) | Menggunakan 3-Layer | Siapa yang Lebih Unggul? | Alasannya Kenapa? |
 | :-: | :--- | :--- | :--- | :---: | :--- |
-| **1** | **Struktur Pemisahan File & Folder** | Belum memiliki pemisahan tanggung jawab layer yang jelas (dapat berada dalam **1 file atau beberapa file** yang masih tercampur; pada studi kasus ini ditempatkan dalam **1 file** `1-non-layered-app/index.php`). | Terpisah tegas ke dalam **3 folder**: `presentation/` (UI), `business-logic/` (Service & API), dan `data-access/` (SQL). | **3-Layer Architecture** | Struktur kode sangat rapi dan setiap file/folder memiliki tanggung jawab layer yang jelas (*Separation of Concerns*). |
+| **1** | **Struktur Pemisahan File & Folder** | Belum memiliki pemisahan tanggung jawab layer yang jelas (dapat berada dalam **1 file atau beberapa file** yang masih tercampur; pada studi kasus ini ditempatkan dalam **1 file** `non-layered-app/index.php`). | Terpisah tegas ke dalam **3 folder**: `presentation/` (UI), `business-logic/` (Service & API), dan `data-access/` (SQL). | **3-Layer Architecture** | Struktur kode sangat rapi dan setiap file/folder memiliki tanggung jawab layer yang jelas (*Separation of Concerns*). |
 | **2** | **Kecepatan Pembuatan Awal (Aplikasi Kecil)** | **Sangat cepat** dibuat karena kode tampilan, proses bisnis, dan SQL langsung ditulis menyatu (di sini dalam `index.php`) tanpa perlu membuat endpoint API JSON. | Membutuhkan waktu awal lebih lama karena harus menyiapkan 3 folder, REST API (`customers.php`), dan `fetch()` JS. | **Non-Layered Architecture** | Untuk program kecil atau tugas sederhana, menulis kode tanpa pemisahan layer langsung jalan tanpa konfigurasi antar-layer. |
 | **3** | **Pengerjaan Individu vs Kerja Tim** | Cocok dikerjakan **1 orang (individu)**, tetapi sulit bagi tim karena belum ada batas tanggung jawab layer yang jelas (apalagi pada implementasi 1 file `index.php` yang rawan *conflict*). | Sangat cocok untuk **kerja tim**. Anggota 1 mengerjakan folder `presentation/`, Anggota 2 di `business-logic/`, Anggota 3 di `data-access/`. | **3-Layer Architecture** | Setiap anggota tim bekerja di folder/layer yang berbeda sehingga tidak saling mengganggu pekerjaan anggota lain. |
 | **4** | **Kemudahan Penelusuran Kesalahan (Debugging)** | **Sulit ditelusuri** karena ketika muncul error, kita harus mencari di antara ratusan baris HTML, PHP, dan SQL yang bercampur di 1 file. | **Sangat mudah dilacak** karena lokasi error langsung terisolasi sesuai foldernya (apakah di tampilan JS, validasi Service, atau query SQL). | **3-Layer Architecture** | Jika salah tampilan cek `presentation/`, jika salah aturan validasi cek `CustomerService.php`, jika salah query cek `CustomerRepository.php`. |
@@ -97,6 +97,6 @@ Berikut adalah **Satu Tabel Utama Hasil Pengujian & Perbandingan** yang merangku
      php -S localhost:8000
      ```
 4. **Buka di Browser:**
-   - **Aplikasi 1 (Non-Layered):** `http://localhost:8000/1-non-layered-app/index.php`
-   - **Aplikasi 2 (3-Layer Architecture):** `http://localhost:8000/2-layered-app/presentation/index.html`
-   - **Cek Output JSON REST API:** `http://localhost:8000/2-layered-app/business-logic/api/customers.php`
+   - **Aplikasi 1 (Non-Layered):** `http://localhost:8000/non-layered-app/index.php`
+   - **Aplikasi 2 (3-Layer Architecture):** `http://localhost:8000/3-layered-app/presentation/index.html`
+   - **Cek Output JSON REST API:** `http://localhost:8000/3-layered-app/business-logic/api/customers.php`
