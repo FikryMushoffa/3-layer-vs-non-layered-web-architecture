@@ -1,0 +1,214 @@
+/* ============================================================================
+ * LAYER 1: PRESENTATION LAYER — assets/css/style.css
+ * Tugas : Mengatur tampilan visual halaman web pada aplikasi 3-Layer.
+ * ============================================================================ */
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    color: #1e293b;
+}
+
+.header {
+    background: #1e3a8a;
+    color: white;
+    padding: 18px 30px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 1150px;
+    margin: 20px auto;
+    padding: 0 20px 40px;
+}
+
+.info-box {
+    background: #eff6ff;
+    border-left: 5px solid #2563eb;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.alert {
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    border-radius: 6px;
+    display: none;
+}
+
+.alert-error {
+    background: #fef2f2;
+    border-left: 5px solid #dc2626;
+    color: #991b1b;
+}
+
+.alert-success {
+    background: #f0fdf4;
+    border-left: 5px solid #16a34a;
+    color: #166534;
+    font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 850px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card {
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.btn-utama {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-utama:hover {
+    background: #1d4ed8;
+}
+
+.btn-batal {
+    background: #e2e8f0;
+    color: #334155;
+}
+
+.btn-edit {
+    background: #dbeafe;
+    color: #1d4ed8;
+    padding: 5px 10px;
+}
+
+.btn-hapus {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 5px 10px;
+}
+
+.search-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: #f8fafc;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #475569;
+}
+
+.json-box {
+    margin-top: 20px;
+    background: #0f172a;
+    color: #a7f3d0;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+}
+
+.json-box-title {
+    color: #93c5fd;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.json-box pre {
+    margin: 0;
+    background: #1e293b;
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow: auto;
+    white-space: pre-wrap;
+}

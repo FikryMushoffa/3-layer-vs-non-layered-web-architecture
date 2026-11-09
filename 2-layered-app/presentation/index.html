@@ -1,0 +1,108 @@
+<!-- ==========================================================================
+     LAYER 1: PRESENTATION LAYER — presentation/index.html
+     Tugas : Menampilkan antarmuka pengguna (Form & Tabel Pelanggan).
+             File ini murni HTML (tanpa kode PHP maupun query SQL).
+     ========================================================================== -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Management System - 3-Layer Architecture</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Customer Management System — Aplikasi 2: 3-Layer Architecture</h1>
+    <p>Pemisahan Tegas: Presentation Layer (HTML/JS) &harr; Business Logic Layer (REST API JSON) &harr; Data Layer (MySQL)</p>
+</div>
+
+<div class="container">
+    <div class="info-box">
+        <strong>Info Arsitektur:</strong> Halaman ini adalah <strong>Presentation Layer</strong> murni. Setiap aksi (Tambah, Tampil, Edit, Hapus, Cari, &amp; Validasi) dikirim ke <strong>Business Logic Layer</strong> menggunakan <strong>REST API &amp; JSON</strong>.
+    </div>
+
+    <!-- Kotak Pesan Error Validasi (dari JSON Business Logic Layer) -->
+    <div id="box-error" class="alert alert-error">
+        <strong>Validasi Gagal (Respons JSON dari Business Logic Layer):</strong>
+        <ul id="list-error" style="margin: 6px 0 0; padding-left: 20px;"></ul>
+    </div>
+
+    <!-- Kotak Pesan Sukses -->
+    <div id="box-sukses" class="alert alert-success"></div>
+
+    <div class="grid">
+        <!-- KOLOM KIRI: FORM TAMBAH / EDIT PELANGGAN -->
+        <div class="card">
+            <h2 id="judul-form">Tambah Pelanggan Baru</h2>
+            <form id="form-pelanggan">
+                <input type="hidden" id="id_edit" value="">
+
+                <div class="form-group">
+                    <label>Nama Pelanggan *</label>
+                    <input type="text" id="nama" placeholder="Contoh: Andi Pratama">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Pelanggan (Unik) *</label>
+                    <input type="text" id="email" placeholder="Contoh: andi@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor Telepon *</label>
+                    <input type="text" id="telepon" placeholder="Contoh: 0812-3456-7890">
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Lengkap *</label>
+                    <textarea id="alamat" rows="3" placeholder="Masukkan alamat lengkap..."></textarea>
+                </div>
+
+                <button type="submit" id="tombol-simpan" class="btn btn-utama">+ Tambah Pelanggan</button>
+                <button type="button" id="tombol-batal" class="btn btn-batal" style="display: none;" onclick="resetForm()">Batal</button>
+            </form>
+        </div>
+
+        <!-- KOLOM KANAN: PENCARIAN & TABEL DATA PELANGGAN -->
+        <div class="card">
+            <h2>Daftar Pelanggan (Total: <span id="jumlah-data">0</span>)</h2>
+
+            <!-- Form Pencarian Berdasarkan Nama atau Email -->
+            <form id="form-cari" class="search-form">
+                <input type="text" id="input-cari" placeholder="Cari berdasarkan nama atau email...">
+                <button type="submit" class="btn btn-utama">Cari</button>
+                <button type="button" class="btn btn-batal" onclick="resetPencarian()">Reset</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nama &amp; Email</th>
+                        <th>Telepon</th>
+                        <th>Alamat</th>
+                        <th style="width: 120px;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-tabel">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px;">Memuat data dari REST API...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PANEL BUKTI KOMUNIKASI REST API & JSON ANTAR LAYER -->
+    <div class="json-box">
+        <div class="json-box-title">
+            <span>Monitor Komunikasi REST API &amp; JSON (Presentation Layer &harr; Business Logic Layer)</span>
+            <span id="info-endpoint">GET ../business-logic/api/customers.php</span>
+        </div>
+        <pre id="isi-json">Menunggu respons JSON...</pre>
+    </div>
+</div>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>
