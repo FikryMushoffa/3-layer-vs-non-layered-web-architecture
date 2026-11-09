@@ -17,7 +17,7 @@ Seluruh **8 luaran wajib** yang diminta pada slide halaman 22 telah selesai dibu
 | **3** | **File Database SQL** | [`database/customer_management.sql`](./database/customer_management.sql) |
 | **4** | **Diagram Arsitektur Kedua Aplikasi** | [`diagrams/`](./diagrams/) (3 file diagram PNG resolusi tinggi) |
 | **5** | **Screenshot Tampilan Kedua Aplikasi** | [`screenshots/`](./screenshots/) (6 screenshot fitur CRUD, Cari, & Validasi) |
-| **6** | **Tabel Hasil Pengujian & Perbandingan** | [`pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md`](./pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md) & [`pengujian/run_tests.php`](./pengujian/run_tests.php) |
+| **6** | **Tabel Hasil Pengujian & Perbandingan** | [`pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md`](./pengujian/Tabel_Hasil_Pengujian_dan_Perbandingan.md) |
 | **7** | **Laporan Analisis (PDF)** | [`laporan/Laporan_Analisis_Layered_vs_Non_Layered_Architecture.pdf`](./laporan/Laporan_Analisis_Layered_vs_Non_Layered_Architecture.pdf) |
 | **8** | **Slide Presentasi Kelompok (PPTX & PDF)** | [`presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pptx`](./presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pptx) & [`.pdf`](./presentasi/Slide_Presentasi_Kelompok_3Layer_vs_NonLayered.pdf) |
 
@@ -98,7 +98,3 @@ Berikut jawaban lengkap dan mudah dipahami untuk menjawab pertanyaan dosen saat 
    - **Aplikasi 1 (Non-Layered):** `http://localhost:8000/1-non-layered-app/index.php`
    - **Aplikasi 2 (3-Layer Architecture):** `http://localhost:8000/2-layered-app/presentation/index.html`
    - **Cek Output JSON REST API:** `http://localhost:8000/2-layered-app/business-logic/api/customers.php`
-5. **Jalankan Pengujian Otomatis (8 Test Case):**
-   ```powershell
-   php pengujian/run_tests.php
-   ```
